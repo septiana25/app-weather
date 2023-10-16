@@ -1,24 +1,34 @@
-const axios = require('axios');
+import movieFetch from '../service/instance';
 
 class DataSource {
-  static async searchCoordinate(cityName, API_KEY) {
+  static async searchCoordinate(cityName) {
     try {
-      const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
+      const response = await movieFetch.get('geo/1.0/direct', {
+        params: {
+          q: cityName,
+          limit: 1,
+        },
+      });
       if (response.data.length) {
-        return Promise.resolve(response.data);
+        return response.data;
       }
-      return Promise.reject(new Error(`No coordinates found for ${cityName}`));
+      return new Error(`No coordinates found for ${cityName}`);
     } catch (error) {
-      return Promise.reject(new Error('Check your internet connection'));
+      return new Error('Check your internet connection');
     }
   }
 
-  static async getWeatherDetails(latitude, longitude, API_KEY) {
+  static async getWeatherDetails(latitude, longitude) {
     try {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`);
-      return Promise.resolve(response.data);
+      const response = await movieFetch.get('data/2.5/forecast', {
+        params: {
+          lat: latitude,
+          lon: longitude,
+        },
+      });
+      return response.data;
     } catch (error) {
-      return Promise.reject(new Error('Check your internet connection'));
+      return new Error('Check your internet connection');
     }
   }
 }

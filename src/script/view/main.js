@@ -5,7 +5,6 @@ import DataSource from '../data/data-source';
 const main = () => {
   const searchElement = document.querySelector('search-bar');
   const weatherElement = document.querySelector('weather-item');
-  const API_KEY = '9f2e1f455e003246d00a9c41b725bbc8';
 
   const renderWeather = (result) => {
     const uniqueForecasts = [];
@@ -25,9 +24,9 @@ const main = () => {
     weatherElement.renderError(message);
   };
 
-  const getWeatherDetails = async (city, latitude, longitude) => {
+  const getWeatherDetails = async (latitude, longitude) => {
     try {
-      const result = await DataSource.getWeatherDetails(latitude, longitude, API_KEY);
+      const result = await DataSource.getWeatherDetails(latitude, longitude);
       renderWeather(result);
     } catch (error) {
       fallbackResult(error);
@@ -36,9 +35,9 @@ const main = () => {
 
   const onButtonSearchClicked = async () => {
     try {
-      const result = await DataSource.searchCoordinate(searchElement.searchValue, API_KEY);
-      const { name, lat, lon } = result[0];
-      getWeatherDetails(name, lat, lon);
+      const result = await DataSource.searchCoordinate(searchElement.searchValue);
+      const { lat, lon } = result[0];
+      getWeatherDetails(lat, lon);
     } catch (error) {
       fallbackResult(error);
     }
