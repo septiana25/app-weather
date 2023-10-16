@@ -1,21 +1,19 @@
-import './club-item.js';
-
 class WeatherItem extends HTMLElement {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super('foo');
+  }
 
-    set weathers(weathers) {
-        this._weathers = weathers;
-        this.render();
-    }
+  set weathers(weathers) {
+    this._weathers = weathers;
+    this.render();
+  }
 
-    set cityName(cityName) {
-        this._cityName = cityName;
-    }
+  set cityName(cityName) {
+    this._cityName = cityName;
+  }
 
-    render(){
-        this.innerHTML = `
+  render() {
+    this.innerHTML = `
         <style>
            .container {
                 display: block;
@@ -29,7 +27,7 @@ class WeatherItem extends HTMLElement {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                color: cornflowerblue;
+                color: #192655;
                 padding: 1rem;
                 gap: 1rem;
             }
@@ -48,7 +46,7 @@ class WeatherItem extends HTMLElement {
                 line-height: 2rem;
             }
 
-            .weather-info h1 {
+            .weather-info h3 {
                 font-size: 20px;
                 text-transform: uppercase;
             }
@@ -56,22 +54,25 @@ class WeatherItem extends HTMLElement {
                 font-weight: bold;
             }
 
-            .weather-grid {
-
+            .five-day-forecast h2 {
+                font-size: 1.3rem;
+                color: #192655;
             }
 
-
-            
+            .five-day-forecast hr {
+                margin-top: .6rem;
+                background: #192655;
+            }
                 
         </style>`;
-        this._weathers.filterForecasts
-        .forEach((weather, index) => {
-            if (index === 0) {
-                this.innerHTML += `
+    this._weathers.filterForecasts
+      .forEach((weather, index) => {
+        if (index === 0) {
+          this.innerHTML += `
                 <div class="container weather-grid">
                     <div class="waraper">
                         <div class="weather-info">
-                            <h1>${this._weathers.cityName} - ${weather.dt_txt.split(" ")[0]} </h1>
+                            <h3>${this._weathers.cityName} - ${weather.dt_txt.split(' ')[0]} </h3>
                             <p>Temperature: ${(weather.main.temp - 273.15).toFixed(2)}°C</p>
                             <p>Wind: ${weather.wind.speed} M/S</p>
                             <p>Humidity: ${weather.main.humidity}%</p>
@@ -83,12 +84,18 @@ class WeatherItem extends HTMLElement {
                     </div>
                 </div>
                 `;
-            } else {
-                this.innerHTML += `
+          this.innerHTML += `
+                <div class="five-day-forecast">
+                    <h2> 5-Day Forecast </h2>
+                    <hr>
+                </div>
+                `;
+        } else {
+          this.innerHTML += `
                 <div class="container">
                     <div class="waraper ">
                         <div class="weather-info">
-                            <h1> ${weather.dt_txt.split(" ")[0]} </h1>
+                            <h3> ${weather.dt_txt.split(' ')[0]} </h3>
                             <p>Temp: ${(weather.main.temp - 273.15).toFixed(2)}°C</p>
                             <p>Wind: ${weather.wind.speed} M/S</p>
                             <p>Humidity: ${weather.main.humidity}%</p>
@@ -96,12 +103,12 @@ class WeatherItem extends HTMLElement {
                     </div>
                 </div>
                 `;
-            }
-        });
-    }
+        }
+      });
+  }
 
-    renderError(error) {
-        this.innerHTML += `
+  renderError(error) {
+    this.innerHTML += `
         <style>
         .error-message {
             background-color: #ff6b6b;
@@ -116,11 +123,11 @@ class WeatherItem extends HTMLElement {
             margin: 0;
         }
         </style>`;
-        this.innerHTML += `        
+    this.innerHTML += `        
             <div class="error-message">
                 <p class="error-text">${error}</p>
             </div>`;
-    }
+  }
 }
 
 customElements.define('weather-item', WeatherItem);

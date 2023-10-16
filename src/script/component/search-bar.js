@@ -1,24 +1,29 @@
 class SearchBar extends HTMLElement {
-    constructor() {
-        super();
-        this.shadowDOM = this.attachShadow({ mode: 'open' });
-    }
+  constructor() {
+    super();
+    this.shadowDOM = this.attachShadow({ mode: 'open' });
+  }
 
-    connectedCallback() {
-        this.render();
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    set clickEvent(event) {
-        this._clickEvent = event;
-        this.render();
-    }
+  set clickEvent(event) {
+    this._clickEvent = event;
+    this.render();
+  }
 
-    get value1() {
-        return this.shadowDOM.querySelector('#searchElement').value;
-    }
+  set enterEvent(event) {
+    this._enterEvent = event;
+    this.render();
+  }
 
-    render() {
-        this.shadowDOM.innerHTML = `
+  get searchValue() {
+    return this.shadowDOM.querySelector('#searchElement').value;
+  }
+
+  render() {
+    this.shadowDOM.innerHTML = `
         <style>
             
             .wrapper {
@@ -59,7 +64,7 @@ class SearchBar extends HTMLElement {
             }
             
             .search-container > input::placeholder {
-                color: cornflowerblue;
+                color: #E1AA74;
                 font-weight: normal;
             }
             
@@ -68,8 +73,8 @@ class SearchBar extends HTMLElement {
                 cursor: pointer;
                 margin-left: auto;
                 padding: 16px;
-                background-color: #6759ff;
-                color: white;
+                background-color: #192655;
+                color: #F3F0CA;
                 border-radius: 20px;
                 border: 0;
                 text-transform: uppercase;
@@ -116,13 +121,18 @@ class SearchBar extends HTMLElement {
         
         <div class="wrapper">
             <div id="search-container" class="search-container">
-                <input placeholder="Search Your City Name" id="searchElement" type="search">
+                <input placeholder="Search Your City, Subdistrict or Village Name " id="searchElement" type="search">
                 <button id="searchButtonElement" type="submit">Search</button>
             </div>
         </div>`;
 
-        this.shadowDOM.querySelector('#searchButtonElement').addEventListener('click', this._clickEvent);
-    }
+    this.shadowDOM.querySelector('#searchButtonElement').addEventListener('click', this._clickEvent);
+    this.shadowDOM.querySelector('#searchElement').addEventListener('keypress', (event) => {
+      if (event.keyCode === 13) {
+        this._enterEvent();
+      }
+    });
+  }
 }
 
 customElements.define('search-bar', SearchBar);

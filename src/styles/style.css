@@ -15,6 +15,31 @@ main {
   margin: 32px auto;
 }
 
+.jumbotron {
+  background-image: url('../public/weather.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #192655;
+  text-align: center;
+  padding: 50px 0;
+}
+
+.jumbotron h2 {
+  font-size: 1.3rem;
+  padding-bottom: 1rem;
+}
+.jumbotron .btn {
+  display: inline-block;
+  background-color: #192655;
+  color: #F3F0CA;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+
 weather-item {
   display: grid;
   margin-top: 32px;
@@ -23,6 +48,7 @@ weather-item {
   gap: 1rem;
 }
 
+
 @media screen and (min-width: 911px) {
   weather-item {
     grid-template-columns: repeat(5, 1fr);
@@ -30,5 +56,15 @@ weather-item {
   .weather-grid {
     grid-column-start: 1;
     grid-column-end: 6;
-}
+  }
+
+  .five-day-forecast {
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
+
+  .error-message {
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
 }
