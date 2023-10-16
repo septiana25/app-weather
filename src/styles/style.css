@@ -48,6 +48,13 @@ weather-item {
   gap: 1rem;
 }
 
+@media screen and (max-width: 559px) {
+  .waraper {
+    flex-flow: column nowrap;
+    justify-content: left !important;
+    flex-direction: column-reverse;
+  }
+}
 
 @media screen and (min-width: 911px) {
   weather-item {
